@@ -160,8 +160,8 @@ void tablo() {
         player2_count += 1;
         ball_x = 78;
         ball_y = racket2 + 1;
-    }
-    }
+        }
+        }
 
 void play_game() {
     while (1) {
@@ -169,7 +169,7 @@ void play_game() {
         field_of_play();
         rocket_movement();
         tablo();
-        if (end_game(player1_count, player2_count))  {
+        if (end_game(player1_count, player2_count)) {
             printf("Поздравляю!\n");
             break;
         }
