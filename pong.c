@@ -161,7 +161,7 @@ void tablo() {
         ball_x = 78;
         ball_y = racket2 + 1;
         }
-        }
+    }
 
 void play_game() {
     while (1) {
