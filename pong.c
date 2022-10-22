@@ -65,8 +65,8 @@ void field_of_play() {
     int HEIGHT = 26;
     int WIDTH = 81;
     int focus = -1;
-    printf("                                   Счет Игры:\n");
-    printf("                                     %d : %d\n", player1_count, player2_count);
+    printf("                                    Счет Игры:\n");
+    printf("                                      %d : %d\n", player1_count, player2_count);
     while (focus != HEIGHT) {
         focus++;
         for (int i = 0; WIDTH >= i; i++) {
