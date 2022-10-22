@@ -41,19 +41,19 @@ int menu() {
         }
     switch (command) {
         case 1:
-        play_game();
-        break;
-    case 2:
-        printf("\nДо встречи!\n");
-        break;
-    case 3:
-        printf("\nУправление:\nA/Z и K/M для перемещения ракеток.\n");
-        printf("Space Bar для пропуска действия на очередном шаге игры.\n");
-        break;
+            play_game();
+            break;
+        case 2:
+            printf("\nДо встречи!\n");
+            break;
+        case 3:
+            printf("\nУправление:\nA/Z и K/M для перемещения ракеток.\n");
+            printf("Space Bar для пропуска действия на очередном шаге игры.\n");
+            break;
         case 4:
-        printf("\nПосле достижения одним из игроков счета в 21 очко, ");
-        printf("игра выводит поздравление победителя и завершается.\n");
-        break;
+            printf("\nПосле достижения одним из игроков счета в 21 очко, ");
+            printf("игра выводит поздравление победителя и завершается.\n");
+            break;
         }
     if (command == 3 || command == 4) {
         return 1;
