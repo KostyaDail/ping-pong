@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 int player1_count = 0;  // Счетчик игрока 1
 int player2_count = 0;  // Счетчик игрока 2
@@ -21,45 +20,46 @@ void tablo();                                        // Счетчик
 
 int main() {
     printf("Добро пожаловать в игру Пинг-Понг!\n\n");
-    while (menu() == 1) {
-        menu();
-        if (menu() == 0) {
-            break;
-            }
-    }
+    int res_menu = menu();
+    while (res_menu) {
+        if (res_menu == 0) {
+            return 0;
+        }
+        res_menu = menu();
+        }
     return 0;
 }
 
 int menu() {
     int command;
     char c;
-    printf("1 - старт игры!\n2 - Выход!\n3 - Управление.\n4 - Правила Игры.\n");
+    printf("1 - Старт игры!\n2 - Выход!\n3 - Управление.\n4 - Правила Игры.\n");
     printf("Введите команду: ");
     if (scanf("%d%c", &command, &c) != 2 || c != '\n' || (command >= 5 || command <= 0)) {
          printf("\nНекорректный ввод. Попробуйте еще раз!\n");
         return 0;
+        }
+    switch (command) {
+        case 1:
+        play_game();
+        break;
+    case 2:
+        printf("\nДо встречи!\n");
+        break;
+    case 3:
+        printf("\nУправление: A/Z и K/M для перемещения ракеток.\n");
+        printf("Space Bar для пропуска действия на очередном шаге игры.\n");
+        break;
+        case 4:
+        printf("\nПосле достижения одним из игроков счета в 21 очко, ");
+        printf("игра выводит поздравление победителя и завершается.\n");
+        break;
+        }
+    if (command == 3 || command == 4) {
+        return 1;
+        }
+    return 0;
     }
-        switch (command) {
-            case 1:
-            play_game();
-            break;
-        case 2:
-            printf("\nДо встречи!\n");
-            break;
-        case 3:
-            printf("\nУправление: A/Z и K/M для перемещения ракеток.\n");
-            printf("Space Bar для пропуска действия на очередном шаге игры.\n");
-            break;
-            case 4:
-            printf("\nПосле достижения одним из игроков счета в 21 очко, ");
-            printf("игра выводит поздравление победителя и завершается.\n");
-            break;
-            }
-        if (command == 3 || command == 4) {
-            return 1;
-            }
-    exit(0);
-}
 
 void field_of_play() {
     int HEIGHT = 26;
@@ -93,19 +93,19 @@ void field_of_play() {
 
 int end_game(int player1_count, int player2_count) {
     if (player1_count == 21) {
-        printf("Игрок 1 победил! %d : %d\n", player1_count, player2_count);
-        return 1;
+        printf("\nИгрок 1 победил! %d : %d\n", player1_count, player2_count);
+        return 0;
     } else if (player2_count == 21) {
-        printf("Игрок 2 победил! %d : %d\n", player1_count, player2_count);
-        return 1;
+        printf("\nИгрок 2 победил! %d : %d\n", player1_count, player2_count);
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 void rocket_movement() {  // движение ракеток
 char action;
 int flag = 1;
-printf("Введите команду для ракетки: ");
+    printf("Введите команду для ракетки: ");
     scanf("%c",  &action);
     if  (action == 'A' || action == 'a') {
         if (racket1 > 1) {
@@ -155,26 +155,25 @@ void tablo() {
     if (ball_x == 80) {
         player1_count += 1;
         ball_x = 2;
+        racket1 = 11;
+        racket2 = 11;
         ball_y = racket1 + 1;
         } else if (ball_x == 0) {
         player2_count += 1;
         ball_x = 78;
+        racket1 = 11;
+        racket2 = 11;
         ball_y = racket2 + 1;
         }
     }
 
 void play_game() {
-    while (1) {
+    while (end_game(player1_count, player2_count)) {
         printf("\e[H\e[2J\e[3J");
         field_of_play();
         rocket_movement();
         tablo();
-        if (end_game(player1_count, player2_count)) {
-            printf("Поздравляю!\n");
-            break;
         }
-    }
+    printf("Поздравляю!\n");
 }
-
-
 
