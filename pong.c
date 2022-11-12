@@ -15,6 +15,7 @@ void field_of_play();    // Игровое поле
 void rocket_movement();  // движение ракеток
 void ball_movement();    // Движение мяча
 void tablo();            // Счетчик
+void clear();            // очистка экрана
 int end_game(int player1_count, int player2_count);  // Конец игры
 
 int main() {
@@ -43,12 +44,12 @@ int menu() {
             printf("\nДо встречи!\n");
             break;
         case 3:
-            printf("\e[H\e[2J\e[3J");
+            clear();
             printf("Управление:\nA/Z и K/M для перемещения ракеток.\n");
             printf("Space Bar для пропуска действия на очередном шаге игры.\n\n");
             break;
         case 4:
-            printf("\e[H\e[2J\e[3J");
+            clear();
             printf("Правила Игры:");
             printf("\nПосле достижения одним из игроков счета в 21 очко, ");
             printf("игра выводит поздравление победителя и завершается.\n\n");
@@ -64,23 +65,23 @@ void field_of_play() {
     int HEIGHT = 26;
     int WIDTH = 81;
     int focus = -1;
-    printf("%54s\n", "Счет Игры:");
-    printf("%39d : %d\n", player1_count, player2_count);
+    printf("%55s\n", "Счет Игры:");
+    printf("%40d : %d\n", player1_count, player2_count);
     while (focus != HEIGHT) {
         focus++;
-        for (int i = 0; WIDTH >= i; i++) {
+        for (int i = -1; WIDTH >= i; i++) {
             if ((focus == 0) || (focus == HEIGHT)) {
                 printf("=");  // Верхняя и нижняя границы
             } else if ((i == ball_x) && focus == ball_y) {  // Мячик
                 printf("0");
             } else if (i == 39) {
                 printf("|");  // Середина поля
-            } else if (i == 1 && (focus >= racket1 && focus <= racket1 + 2)) {
+            } else if (i == 0 && (focus >= racket1 && focus <= racket1 + 2)) {
                 printf("|");  // Ракетка 1
             } else if (i == 79 && (focus >= racket2 && focus <= racket2 + 2)) {
                 printf("|");  // Ракетка 2
             } else {
-                if (((i == 0) || (i == WIDTH))) {
+                if (((i == -1) || (i == WIDTH))) {
                     printf("|");  // Боковые границы
                 }
                 printf(" ");  // Заполнение поля
@@ -128,7 +129,7 @@ void ball_movement() {
         ball_y -= 2 * vec_ball_y;
         vec_ball_y = -vec_ball_y;
     }
-    if (ball_x == 1 && ball_y >= racket1 && ball_y <= racket1 + 2) {
+    if (ball_x == 0 && ball_y >= racket1 && ball_y <= racket1 + 2) {
         ball_x -= 2 * vec_ball_x;
         vec_ball_x = -vec_ball_x;
     }
@@ -141,11 +142,11 @@ void ball_movement() {
 void tablo() {
     if (ball_x == 80) {
         player1_count += 1;
-        ball_x = 2;
+        ball_x = 1;
         racket1 = 11;
         racket2 = 11;
         ball_y = racket1 + 1;
-    } else if (ball_x == 0) {
+    } else if (ball_x == -1) {
         player2_count += 1;
         ball_x = 78;
         racket1 = 11;
@@ -156,18 +157,22 @@ void tablo() {
 
 int end_game(int player1_count, int player2_count) {
     if (player1_count == 21) {
+        clear();
         printf("\nИгрок 1 победил! %d : %d\n", player1_count, player2_count);
         return 0;
     } else if (player2_count == 21) {
+        clear();
         printf("\nИгрок 2 победил! %d : %d\n", player1_count, player2_count);
         return 0;
     }
     return 1;
 }
 
+void clear() { printf("\e[H\e[2J\e[3J"); }
+
 void play_game() {
     while (end_game(player1_count, player2_count)) {
-        printf("\e[H\e[2J\e[3J");
+        clear();
         field_of_play();
         rocket_movement();
         tablo();
