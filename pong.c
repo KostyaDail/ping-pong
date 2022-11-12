@@ -90,17 +90,6 @@ void field_of_play() {
     }
 }
 
-int end_game(int player1_count, int player2_count) {
-    if (player1_count == 21) {
-        printf("\nИгрок 1 победил! %d : %d\n", player1_count, player2_count);
-        return 0;
-    } else if (player2_count == 21) {
-        printf("\nИгрок 2 победил! %d : %d\n", player1_count, player2_count);
-        return 0;
-    }
-    return 1;
-}
-
 void rocket_movement() {  // движение ракеток
     char action;
     int flag = 1;
@@ -163,6 +152,17 @@ void tablo() {
         racket2 = 11;
         ball_y = racket2 + 1;
     }
+}
+
+int end_game(int player1_count, int player2_count) {
+    if (player1_count == 21) {
+        printf("\nИгрок 1 победил! %d : %d\n", player1_count, player2_count);
+        return 0;
+    } else if (player2_count == 21) {
+        printf("\nИгрок 2 победил! %d : %d\n", player1_count, player2_count);
+        return 0;
+    }
+    return 1;
 }
 
 void play_game() {
